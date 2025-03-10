@@ -3,10 +3,27 @@ import 'dataDiriPage.dart';
 import 'hitungHariPage.dart';
 import 'trapesiumPage.dart';
 import 'kubusPage.dart';
+import 'loginPage.dart';
+import 'menu.dart';
 
 void main() {
   runApp(const MyApp());
 }
+
+// class MyApp extends StatelessWidget {
+//   const MyApp({super.key});
+
+//   @override
+//   Widget build(BuildContext context) {
+//     return MaterialApp(
+//       title: 'Tugas 2',
+//       theme: ThemeData(
+//         primarySwatch: Colors.green,
+//       ),
+//       home: const MainMenu(),
+//     );
+//   }
+// }
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
@@ -14,11 +31,8 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Tugas 2',
-      theme: ThemeData(
-        primarySwatch: Colors.green,
-      ),
-      home: const MainMenu(),
+      debugShowCheckedModeBanner: false,
+      home: LoginPage(), // Aplikasi dimulai dari halaman login
     );
   }
 }
@@ -79,6 +93,12 @@ class MainMenu extends StatelessWidget {
                     context,
                     MaterialPageRoute(
                         builder: (context) => const HitungHariPage()),
+                  );
+                }),
+                _buildMenuItem(Icons.calendar_today, "MENU", () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => MenuScreen()),
                   );
                 }),
               ],
