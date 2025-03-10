@@ -6,12 +6,13 @@ class OurTeamPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color(0xFFF8E9F0), // Warna latar belakang
+      backgroundColor:
+          const Color.fromARGB(255, 231, 183, 206), // Warna latar belakang
       appBar: AppBar(
         backgroundColor: Colors.transparent,
         elevation: 0,
         leading: IconButton(
-          icon: Icon(Icons.arrow_back, color: Colors.black),
+          icon: const Icon(Icons.arrow_back, color: Colors.black),
           onPressed: () {
             Navigator.pop(context);
           },
@@ -19,24 +20,18 @@ class OurTeamPage extends StatelessWidget {
       ),
       body: Column(
         children: [
-          Padding(
-            padding: const EdgeInsets.all(16.0),
+          const Padding(
+            padding: EdgeInsets.all(16.0),
             child: Text(
               "OUR TEAM",
               style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
             ),
           ),
           Expanded(
-            child: Column(
+            child: ListView(
               children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    _buildTeamMember("assets/profile.jpg", "SYIFA NUR RAMADHANI", "123220194"),
-                    _buildTeamMember("assets/profile2.jpg", "M. NAUFAL FAUZI ALI", "123220207"),
-                  ],
-                ),
-                _buildTeamMember("assets/profile3.jpg", "RAFIQ IKHWAN NUGRAHA", "123220071"),
+                _buildTeamMember("assets/profile.jpg", "Rafiq Ikhwan Nugraha",
+                    "123220071", "IF-B", "Mendaki Gunung"),
               ],
             ),
           ),
@@ -45,7 +40,8 @@ class OurTeamPage extends StatelessWidget {
     );
   }
 
-  Widget _buildTeamMember(String imagePath, String name, String id) {
+  Widget _buildTeamMember(
+      String imagePath, String name, String id, String kelas, String hobby) {
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: Column(
@@ -54,9 +50,9 @@ class OurTeamPage extends StatelessWidget {
             radius: 50,
             backgroundImage: AssetImage(imagePath),
           ),
-          SizedBox(height: 10),
+          const SizedBox(height: 10),
           Container(
-            padding: EdgeInsets.symmetric(vertical: 8, horizontal: 16),
+            padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
             decoration: BoxDecoration(
               color: Colors.purple.shade100,
               borderRadius: BorderRadius.circular(20),
@@ -65,9 +61,11 @@ class OurTeamPage extends StatelessWidget {
               children: [
                 Text(
                   name,
-                  style: TextStyle(fontWeight: FontWeight.bold),
+                  style: const TextStyle(fontWeight: FontWeight.bold),
                 ),
                 Text(id),
+                Text(kelas),
+                Text(hobby),
               ],
             ),
           ),
