@@ -1,4 +1,12 @@
 import 'package:flutter/material.dart';
+import 'histori.dart';
+
+class Pesanan {
+  final String namaMenu;
+  final int jumlah;
+
+  Pesanan({required this.namaMenu, required this.jumlah});
+}
 
 void main() {
   runApp(MyApp());
@@ -10,17 +18,29 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
+  final List<Pesanan> _pesananList = [];
+
+  void _addPesanan(Pesanan pesanan) {
+    setState(() {
+      _pesananList.add(pesanan);
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Menu',
-      home: MenuScreen(),
+      home: MenuScreen(addPesanan: _addPesanan, pesananList: _pesananList),
     );
   }
 }
 
 class MenuScreen extends StatelessWidget {
-  const MenuScreen({super.key});
+  final Function(Pesanan) addPesanan;
+  final List<Pesanan> pesananList;
+
+  const MenuScreen(
+      {super.key, required this.addPesanan, required this.pesananList});
 
   @override
   Widget build(BuildContext context) {
@@ -28,6 +48,17 @@ class MenuScreen extends StatelessWidget {
       appBar: AppBar(
         title: Text('Halo @Rafiiq'),
         actions: [
+          IconButton(
+            icon: Icon(Icons.history),
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => Histori(pesananList: pesananList),
+                ),
+              );
+            },
+          ),
           IconButton(
             icon: Icon(Icons.exit_to_app),
             onPressed: () {},
@@ -38,8 +69,8 @@ class MenuScreen extends StatelessWidget {
         children: [
           Container(
             margin: EdgeInsets.symmetric(vertical: 16.0),
-            child: Image.asset(
-              'assets/profile.jpg', // Ganti dengan nama file gambar Anda
+            child: Image.network(
+              'https://images.unsplash.com/photo-1550935770-d58cbf30c003?q=80&w=1925&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D', // Ganti dengan URL gambar Anda
               height: 200,
               width: double.infinity,
               fit: BoxFit.cover,
@@ -82,6 +113,7 @@ class MenuScreen extends StatelessWidget {
                             MaterialPageRoute(
                               builder: (context) => OrderPage(
                                 menuItem: menuItems[index],
+                                addPesanan: addPesanan,
                               ),
                             ),
                           );
@@ -102,8 +134,9 @@ class MenuScreen extends StatelessWidget {
 
 class OrderPage extends StatefulWidget {
   final Map<String, String> menuItem;
+  final Function(Pesanan) addPesanan;
 
-  OrderPage({required this.menuItem});
+  OrderPage({required this.menuItem, required this.addPesanan});
 
   @override
   _OrderPageState createState() => _OrderPageState();
@@ -181,6 +214,10 @@ class _OrderPageState extends State<OrderPage> {
             ElevatedButton(
               onPressed: () {
                 // Aksi ketika tombol "Pesan" ditekan
+                widget.addPesanan(Pesanan(
+                  namaMenu: widget.menuItem['name']!,
+                  jumlah: quantity,
+                ));
                 showDialog(
                   context: context,
                   builder: (context) {

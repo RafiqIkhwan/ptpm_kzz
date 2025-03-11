@@ -5,25 +5,11 @@ import 'trapesiumPage.dart';
 import 'kubusPage.dart';
 import 'loginPage.dart';
 import 'menu.dart';
+import 'histori.dart';
 
 void main() {
   runApp(const MyApp());
 }
-
-// class MyApp extends StatelessWidget {
-//   const MyApp({super.key});
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return MaterialApp(
-//       title: 'Tugas 2',
-//       theme: ThemeData(
-//         primarySwatch: Colors.green,
-//       ),
-//       home: const MainMenu(),
-//     );
-//   }
-// }
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
@@ -37,8 +23,21 @@ class MyApp extends StatelessWidget {
   }
 }
 
-class MainMenu extends StatelessWidget {
+class MainMenu extends StatefulWidget {
   const MainMenu({super.key});
+
+  @override
+  _MainMenuState createState() => _MainMenuState();
+}
+
+class _MainMenuState extends State<MainMenu> {
+  final List<Pesanan> _pesananList = [];
+
+  void _addPesanan(Pesanan pesanan) {
+    setState(() {
+      _pesananList.add(pesanan);
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -98,7 +97,20 @@ class MainMenu extends StatelessWidget {
                 _buildMenuItem(Icons.calendar_today, "MENU", () {
                   Navigator.push(
                     context,
-                    MaterialPageRoute(builder: (context) => MenuScreen()),
+                    MaterialPageRoute(
+                      builder: (context) => MenuScreen(
+                        addPesanan: _addPesanan,
+                        pesananList: _pesananList,
+                      ),
+                    ),
+                  );
+                }),
+                _buildMenuItem(Icons.calendar_today, "HISTORI", () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => Histori(pesananList: _pesananList),
+                    ),
                   );
                 }),
               ],
